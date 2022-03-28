@@ -11,7 +11,25 @@ function App() {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    console.log(elements);
+    var fldsArray = elements.fields;
+    //console.log(elements);
+    console.table(elements.fields);
+
+    var desc = "[DO_NOT_EDIT]";
+    var cnt = 0;
+    for (var i = 0; i < fldsArray.length; i++) {
+      desc +=
+        "[" +
+        fldsArray[i].field_id +
+        " field_label='" +
+        fldsArray[i].field_label +
+        "']";
+      desc += fldsArray[i].field_value + "[/" + fldsArray[i].field_id + "]";
+      cnt++;
+    }
+    desc += "[/DO_NOT_EDIT]";
+    console.log("Custom Field concatenated: " + desc);
+    console.log("cnt: " + cnt);
   };
   const handleChange = (id, event) => {
     const newElements = { ...elements };
@@ -37,6 +55,22 @@ function App() {
       <div className="App container">
         <h3>{page_label}</h3>
         <form>
+          <div className="mb-3">
+            <label htmlFor="jiraSummary" className="form-label">
+              Jira Summary Field:
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="jiraSummary"
+              aria-describedby="jiraSummaryHelp"
+              placeholder="Enter the Jira Summary text"
+            />
+            <div id="jiraSummaryHelp" className="form-text">
+              Jira Summary field
+            </div>
+          </div>
+
           {fields
             ? fields.map((field, i) => <Element key={i} field={field} />)
             : null}
